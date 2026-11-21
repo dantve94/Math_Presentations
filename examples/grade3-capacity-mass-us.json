@@ -1,0 +1,406 @@
+{
+  "meta": {
+    "grade": "3",
+    "standard_code": "CCSS 3.MD.A.2 (taught with US customary units)",
+    "standard_text": "Add, subtract, multiply, or divide to solve one-step word problems involving masses or volumes that are given in the same units.",
+    "domain": "Measurement, Data & Statistics",
+    "skill": "Solve Capacity and Mass Word Problems",
+    "deck_title": "Grade 3 - Solve Capacity and Mass Word Problems (US units)",
+    "objective": "Today, we will solve liquid volume and mass word problems using measurement and operations.",
+    "units_system": "US customary",
+    "duration_minutes": 30
+  },
+  "teacher_guide": {
+    "summary": "Students solve one-step word problems about liquid volume (fl oz, gallons) and mass/weight (oz). The lesson starts with kid-friendly vocabulary and a unit cheat sheet, then models two problems (I do) with a jug and a tape diagram before students help solve two more (We do). Each problem follows the same routine: what do we know, what do we need, what type of problem is it, write the equation, check. Students then practice independently in Exact Path breakout rooms.",
+    "big_idea": "Measurement word problems are ordinary operation problems: find the problem type, model it, and keep the units with every number.",
+    "prerequisites": [
+      "Add and subtract within 100",
+      "Basic multiplication and division facts",
+      "Knows that fl oz and gallons measure liquid, and oz and lb measure weight"
+    ],
+    "heuristics": [
+      "Draw it before you solve it: a jug or tape diagram makes the operation obvious.",
+      "Name the problem type out loud: Total, Change, Compare, or Equal groups.",
+      "Units travel with numbers: say '14 fluid ounces', never just '14'.",
+      "Same units only: if the units differ, convert first (not needed today).",
+      "Check with the opposite operation: 18 + 14 should give back 32.",
+      "Estimate first: 'Is the answer more or less than the start amount?'",
+      "Act it out with a real cup and water bottle when possible."
+    ],
+    "misconceptions": [
+      { "misconception": "Mixing up capacity (how much a container CAN hold) with how much is in it now.", "fix": "Use the jug graphic: the top line is capacity, the colored part is how much is inside." },
+      { "misconception": "Adding every number in the problem ('I see two numbers, so I add').", "fix": "Ask 'Is the amount getting bigger or smaller?' and point to the tape diagram." },
+      { "misconception": "Confusing ounces (weight) with fluid ounces (liquid volume).", "fix": "Fluid ounces are for things you pour; ounces are for things you put on a scale." },
+      { "misconception": "Dropping units in the answer.", "fix": "Make the 'units travel' chant part of every answer check." }
+    ],
+    "support": "Use friendlier numbers first (e.g., 30 - 10), let students draw on the jug graphic, and give sentence frames: 'There were __. __ was used. Now there is __.'",
+    "stretch": "Ask: 'Manu's 32 oz of nuts is how many pounds?' (2 lb) and have students write their own capacity word problem for a partner.",
+    "materials": ["A measuring cup or water bottle (optional)", "Whiteboard or paper for drawing models", "Exact Path login"]
+  },
+  "slides": [
+    {
+      "layout": "WELCOME",
+      "title": "Welcome",
+      "body": "Exact Path Course\nDomain: Measurement, Data & Statistics\nSkill: Solve Capacity and Mass Word Problems",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Greet students and name today's skill.",
+        "say": "Good morning, mathematicians! I'm so happy to see you. Today we're going to be measurement detectives. We'll solve word problems about how much liquid fits in a jug and how heavy things are.",
+        "ask": "Who has poured a drink from a big jug at home?",
+        "listen_for": "Any real-life examples: milk jug, juice, water bottle.",
+        "if_stuck": "Share your own example: 'This morning I poured milk from a gallon jug.'",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "EXPECTATIONS",
+      "title": "Expectations",
+      "body": "",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Review online classroom expectations.",
+        "say": "Let's quickly check our expectations. Cameras on, mics muted unless I ask, your name on the screen, and most of all, be kind and ready to learn.",
+        "ask": "Give me a thumbs up when your name is showing.",
+        "listen_for": "Thumbs up from every student.",
+        "if_stuck": "Privately message students who need help renaming themselves.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "CHECK_IN",
+      "title": "Check In",
+      "body": "Warm-up: 40 - 15 = ?",
+      "graphic": { "type": "number_line", "params_json": "{\"min\":20,\"max\":45,\"step\":1,\"label_every\":5,\"points\":[40],\"jumps\":[{\"from\":40,\"to\":30,\"label\":\"-10\"},{\"from\":30,\"to\":25,\"label\":\"-5\"}]}", "alt_text": "Number line from 20 to 45 showing jumps from 40 back 10 to 30, then back 5 to 25." },
+      "notes": {
+        "summary": "Warm up the subtraction skill used in today's problems.",
+        "say": "Let's warm up our brains. Solve 40 minus 15 on your whiteboard. You can use the number line: start at 40, jump back 10, then jump back 5.",
+        "ask": "What is 40 - 15? How did you solve it?",
+        "listen_for": "25. Strategies like jumping back 10 then 5, or 40 - 10 - 5.",
+        "if_stuck": "Break 15 into 10 and 5 and do one jump at a time.",
+        "time_minutes": 2
+      }
+    },
+    {
+      "layout": "OBJECTIVES",
+      "title": "Objectives",
+      "body": "Today, we will solve liquid volume and mass word problems using measurement and operations.",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "State the learning goal.",
+        "say": "Here's our goal. Read it with me: 'Today, we will solve liquid volume and mass word problems using measurement and operations.' Operations means add, subtract, multiply, or divide.",
+        "ask": "What are the four operations?",
+        "listen_for": "Addition, subtraction, multiplication, division.",
+        "if_stuck": "Show the four signs: + - x ÷.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "DEFINITIONS",
+      "title": "Definitions",
+      "body": "Capacity: how much a container can hold.\nVolume: how much space something takes up.\nMass: how much stuff is inside an object.\nWeight: how heavy something feels.",
+      "graphic": { "type": "measuring_container", "params_json": "{\"capacity\":32,\"level\":20,\"unit\":\"fl oz\",\"tick_every\":8,\"label\":\"Capacity = 32 fl oz\",\"color\":\"#4FA3E0\"}", "alt_text": "A jug marked up to 32 fluid ounces, filled to 20 fluid ounces." },
+      "notes": {
+        "summary": "Teach the core measurement words with a picture.",
+        "say": "Look at this jug. The top line shows its capacity, the most it can hold: 32 fluid ounces. Right now it has 20 fluid ounces of water inside. Mass is how much stuff is in something, and weight is how heavy it feels when you pick it up.",
+        "ask": "What is the capacity of this jug? How much water is in it now?",
+        "listen_for": "Capacity is 32 fl oz; there is 20 fl oz in it now.",
+        "if_stuck": "Point to the top line for capacity and the blue part for what is inside. ELL cue: gesture 'fill up to the top'.",
+        "time_minutes": 2
+      }
+    },
+    {
+      "layout": "DEFINITIONS",
+      "title": "Definitions",
+      "body": "Unit: what we measure with (fl oz, gallon, ounce, pound).\nOperation: add, subtract, multiply, or divide.",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Define unit and operation.",
+        "say": "A unit is what we measure with. For liquids we use fluid ounces, cups, and gallons. For weight we use ounces and pounds. An operation is the math action we choose: add, subtract, multiply, or divide.",
+        "ask": "Would you measure milk in fluid ounces or pounds?",
+        "listen_for": "Fluid ounces (or gallons); pounds are for weight.",
+        "if_stuck": "Ask: 'Do you pour it or put it on a scale?'",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "CHEAT_SHEET",
+      "title": "Just a note",
+      "body": "Liquid volume units\n8 fl oz = 1 cup\n2 cups = 1 pint\n2 pints = 1 quart\n4 quarts = 1 gallon",
+      "graphic": { "type": "measuring_container", "params_json": "{\"capacity\":16,\"level\":8,\"unit\":\"fl oz\",\"tick_every\":8,\"label\":\"8 fl oz = 1 cup\",\"color\":\"#4FA3E0\"}", "alt_text": "A 16 fluid ounce container filled halfway, showing that 8 fluid ounces is 1 cup." },
+      "notes": {
+        "summary": "Reference sheet for liquid volume units.",
+        "say": "This is our cheat sheet. You don't need to memorize it today; it's here to help. Notice that 8 fluid ounces is 1 cup, about one glass of milk.",
+        "ask": "How many fluid ounces are in 2 cups?",
+        "listen_for": "16 fl oz.",
+        "if_stuck": "Count by 8s: 8, 16.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "CHEAT_SHEET",
+      "title": "Just a note",
+      "body": "Weight units\n16 oz = 1 pound (lb)\nSmall things: ounces\nBigger things: pounds",
+      "graphic": { "type": "tape_diagram", "params_json": "{\"parts\":[{\"label\":\"8 oz\",\"value\":8},{\"label\":\"8 oz\",\"value\":8}],\"total\":16,\"total_label\":\"16 oz = 1 lb\",\"unit\":\"oz\"}", "alt_text": "A bar split into two parts of 8 ounces that together make 16 ounces, or 1 pound." },
+      "notes": {
+        "summary": "Reference sheet for weight units.",
+        "say": "For weight, small things like a strawberry are measured in ounces. Bigger things like a bag of apples are measured in pounds. 16 ounces make 1 pound.",
+        "ask": "Would a pencil be measured in ounces or pounds?",
+        "listen_for": "Ounces.",
+        "if_stuck": "Compare: a slice of bread is about 1 ounce.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "CHEAT_SHEET",
+      "title": "Just a note",
+      "body": "4 types of word problems\nTotal: put parts together\nChange: start, change, end\nCompare: how much more or less\nEqual groups: share or group equally",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Introduce the problem types (schemas) used all lesson.",
+        "say": "Most word problems are one of four types. Total: we put parts together. Change: we start with an amount and it goes up or down. Compare: we find how much more or less. Equal groups: we share or group equally. Today, we'll name the type before we solve.",
+        "ask": "If I have juice and drink some, which type is that?",
+        "listen_for": "Change (it goes down).",
+        "if_stuck": "Act it out with a cup.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "CHEAT_SHEET",
+      "title": "Just a note",
+      "body": "Our 5 steps\n1. What do we know?\n2. What do we need to find?\n3. What type is it?\n4. Write the equation.\n5. Check: does it make sense?",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "The routine students will use for every problem.",
+        "say": "These are our five steps. We'll use them for every problem today, so by the end you'll be able to do them on your own.",
+        "ask": "What is step 5?",
+        "listen_for": "Check that it makes sense.",
+        "if_stuck": "Read the steps chorally.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "I_DO_PROBLEM",
+      "title": "“I do”",
+      "body": "This jug holds 32 fluid ounces of water. Manu uses 14 fluid ounces. How much is left?",
+      "graphic": { "type": "measuring_container", "params_json": "{\"capacity\":32,\"level\":32,\"unit\":\"fl oz\",\"tick_every\":4,\"label\":\"Jug: 32 fl oz\",\"color\":\"#4FA3E0\"}", "alt_text": "A full jug holding 32 fluid ounces." },
+      "notes": {
+        "summary": "Teacher models the first problem (Change, take from).",
+        "say": "Watch me solve this one and listen to my thinking. The jug starts full: 32 fluid ounces. Manu uses 14 fluid ounces, so some water leaves the jug. The amount is getting smaller. I'm thinking subtraction.",
+        "ask": "Is the water in the jug going up or down?",
+        "listen_for": "Down, because Manu used some.",
+        "if_stuck": "Pretend to pour from a bottle.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "WORK_IT_OUT",
+      "title": "Let's work it out",
+      "body": "What do we know? Start: 32 fl oz. Used: 14 fl oz.\nWhat do we need? How much is left.\nProblem type: Change (take from)\nEquation: 32 fl oz - 14 fl oz = ?\nCheck: ? + 14 should equal 32",
+      "graphic": { "type": "tape_diagram", "params_json": "{\"parts\":[{\"label\":\"14 used\",\"value\":14},{\"label\":\"? left\",\"value\":18}],\"total\":32,\"total_label\":\"32 fl oz\",\"unit\":\"fl oz\"}", "alt_text": "Tape diagram: whole of 32 fluid ounces split into 14 used and an unknown amount left." },
+      "notes": {
+        "summary": "Think aloud through the 5 steps with a tape diagram.",
+        "say": "My tape diagram shows the whole jug, 32 fluid ounces. One part is the 14 Manu used. The other part, the question mark, is what's left. When we know the whole and one part, we subtract. The equation is 32 minus 14 equals question mark.",
+        "ask": "Why did I put 32 on top of the whole bar?",
+        "listen_for": "Because 32 is the total amount at the start.",
+        "if_stuck": "Cover the '14 used' part with your hand and ask what remains.",
+        "time_minutes": 2
+      }
+    },
+    {
+      "layout": "I_DO_ANSWER",
+      "title": "“I do”",
+      "body": "This jug holds 32 fluid ounces of water. Manu uses 14 fluid ounces. How much is left?\n32 fl oz - 14 fl oz = 18 fl oz",
+      "graphic": { "type": "measuring_container", "params_json": "{\"capacity\":32,\"level\":18,\"unit\":\"fl oz\",\"tick_every\":4,\"label\":\"18 fl oz left\",\"color\":\"#4FA3E0\"}", "alt_text": "The jug now filled to 18 of 32 fluid ounces." },
+      "notes": {
+        "summary": "Reveal and check the answer.",
+        "say": "32 minus 14 is 18, so 18 fluid ounces are left. Let me check: 18 plus 14 is 32. Yes! And look, the jug shows 18. My answer has units, so it's complete.",
+        "ask": "How do we know 18 makes sense?",
+        "listen_for": "18 + 14 = 32; 18 is less than 32 because water was used.",
+        "if_stuck": "Count up from 14 to 32 on a number line.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "I_DO_PROBLEM",
+      "title": "“I do”",
+      "body": "Sten has 24 ounces of berries. If he uses 9 ounces, how much will he have left?",
+      "graphic": { "type": "tape_diagram", "params_json": "{\"parts\":[{\"label\":\"9 used\",\"value\":9},{\"label\":\"?\",\"value\":15}],\"total\":24,\"total_label\":\"Berries: 24 oz\",\"unit\":\"oz\"}", "alt_text": "Tape diagram: 24 ounces of berries split into 9 ounces used and an unknown amount." },
+      "notes": {
+        "summary": "Teacher models a mass (weight) Change problem.",
+        "say": "This time we're measuring weight, not liquid. Ounces here means how heavy the berries are. Sten starts with 24 ounces and uses 9, so the amount gets smaller again.",
+        "ask": "Is this liquid volume or weight? How do you know?",
+        "listen_for": "Weight, because berries are weighed in ounces, not poured.",
+        "if_stuck": "Pour or weigh? Berries go on a scale.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "WORK_IT_OUT",
+      "title": "Let's work it out",
+      "body": "What do we know? Start: 24 oz. Used: 9 oz.\nWhat do we need? How much is left.\nProblem type: Change (take from)\nEquation: 24 oz - 9 oz = ?\nCheck: ? + 9 should equal 24",
+      "graphic": { "type": "number_line", "params_json": "{\"min\":10,\"max\":26,\"step\":1,\"label_every\":2,\"points\":[24],\"jumps\":[{\"from\":24,\"to\":20,\"label\":\"-4\"},{\"from\":20,\"to\":15,\"label\":\"-5\"}]}", "alt_text": "Number line: start at 24, jump back 4 to 20, then back 5 to 15." },
+      "notes": {
+        "summary": "Model subtracting across a ten with a number line.",
+        "say": "9 is tricky, so I'll split it into 4 and 5. From 24, I jump back 4 to land on the friendly number 20. Then I jump back 5 more to 15. The equation is 24 minus 9 equals 15.",
+        "ask": "Why did I jump to 20 first?",
+        "listen_for": "20 is a friendly ten; it's easier to subtract from.",
+        "if_stuck": "Use 24 - 10 = 14, then add 1 back because we took 1 too many.",
+        "time_minutes": 2
+      }
+    },
+    {
+      "layout": "I_DO_ANSWER",
+      "title": "“I do”",
+      "body": "Sten has 24 ounces of berries. If he uses 9 ounces, how much will he have left?\n24 oz - 9 oz = 15 oz",
+      "graphic": { "type": "tape_diagram", "params_json": "{\"parts\":[{\"label\":\"9 used\",\"value\":9},{\"label\":\"15 left\",\"value\":15}],\"total\":24,\"total_label\":\"Berries: 24 oz\",\"unit\":\"oz\"}", "alt_text": "Tape diagram: 24 ounces split into 9 ounces used and 15 ounces left." },
+      "notes": {
+        "summary": "Reveal and check the answer.",
+        "say": "Sten has 15 ounces of berries left. Check: 15 plus 9 is 24. It makes sense because he has less than he started with.",
+        "ask": "What unit goes with our answer?",
+        "listen_for": "Ounces (oz).",
+        "if_stuck": "Point at the units in the problem.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "BRAIN_BREAK",
+      "title": "How are you?",
+      "body": "",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Quick check on how students feel.",
+        "say": "Let's pause. Show me with your fingers how you're feeling: 5 means 'I've got this', 1 means 'I'm confused'.",
+        "ask": "Show me 1 to 5.",
+        "listen_for": "Note students showing 1-2 for extra support during We do.",
+        "if_stuck": "",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "WE_DO_PROBLEM",
+      "title": "“We do”",
+      "body": "This jug holds 8 gallons of water. Sten pours it equally into 2 containers. How much water is in each container?",
+      "graphic": { "type": "measuring_container", "params_json": "{\"capacity\":8,\"level\":8,\"unit\":\"gal\",\"tick_every\":1,\"label\":\"Jug: 8 gallons\",\"color\":\"#4FA3E0\"}", "alt_text": "A full jug holding 8 gallons." },
+      "notes": {
+        "summary": "Students lead an Equal groups (sharing) problem.",
+        "say": "Now you help me. Read the problem with me. Use our 5 steps. What do we know?",
+        "ask": "What does 'equally' mean? What type of problem is this?",
+        "listen_for": "The same amount in each; Equal groups (sharing).",
+        "if_stuck": "Draw 2 empty containers and share 8 dots one at a time.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "WORK_IT_OUT",
+      "title": "Let's work it out",
+      "body": "What do we know? Total: 8 gallons. Containers: 2.\nWhat do we need? Gallons in each container.\nProblem type: Equal groups (share)\nEquation: 8 gal ÷ 2 = ?\nCheck: ? x 2 should equal 8",
+      "graphic": { "type": "equal_groups", "params_json": "{\"groups\":2,\"per_group\":4,\"label\":\"8 gallons shared into 2 containers\",\"unit\":\"gal\"}", "alt_text": "Two containers, each with 4 gallon markers, for 8 gallons in all." },
+      "notes": {
+        "summary": "Students build the equation for sharing.",
+        "say": "When we share equally, we divide. Who can tell me the equation? Yes, 8 divided by 2. Let's share the gallons one at a time into the two containers.",
+        "ask": "What is 8 ÷ 2? How can we check with multiplication?",
+        "listen_for": "4 gallons; 4 x 2 = 8.",
+        "if_stuck": "Count the gallon markers in one container.",
+        "time_minutes": 2
+      }
+    },
+    {
+      "layout": "WE_DO_ANSWER",
+      "title": "“We do”",
+      "body": "This jug holds 8 gallons of water. Sten pours it equally into 2 containers. How much water is in each container?\n8 gal ÷ 2 = 4 gal",
+      "graphic": { "type": "equal_groups", "params_json": "{\"groups\":2,\"per_group\":4,\"label\":\"4 gallons in each\",\"unit\":\"gal\"}", "alt_text": "Two containers with 4 gallons each." },
+      "notes": {
+        "summary": "Confirm the answer together.",
+        "say": "Each container has 4 gallons. We checked it: 4 times 2 is 8. Great teamwork!",
+        "ask": "What if Sten used 4 containers?",
+        "listen_for": "2 gallons each (8 ÷ 4 = 2).",
+        "if_stuck": "Redraw with 4 containers.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "WE_DO_PROBLEM",
+      "title": "“We do”",
+      "body": "Manu has two bags of nuts. One bag weighs 14 oz and the other weighs 18 oz. If he combines them, how many ounces of nuts will he have?",
+      "graphic": { "type": "tape_diagram", "params_json": "{\"parts\":[{\"label\":\"14 oz\",\"value\":14},{\"label\":\"18 oz\",\"value\":18}],\"total\":32,\"total_label\":\"? oz\",\"unit\":\"oz\"}", "alt_text": "Tape diagram with parts of 14 ounces and 18 ounces and an unknown total." },
+      "notes": {
+        "summary": "Students lead a Total (put together) problem.",
+        "say": "Your turn to lead. What do we know, and what do we need to find?",
+        "ask": "What type of problem is this?",
+        "listen_for": "Total: we know both parts and need the whole.",
+        "if_stuck": "Point at the question mark above the whole bar.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "WORK_IT_OUT",
+      "title": "Let's work it out",
+      "body": "What do we know? Bag 1: 14 oz. Bag 2: 18 oz.\nWhat do we need? The total weight.\nProblem type: Total (put together)\nEquation: 14 oz + 18 oz = ?\nCheck: ? - 18 should equal 14",
+      "graphic": { "type": "number_line", "params_json": "{\"min\":10,\"max\":35,\"step\":1,\"label_every\":5,\"points\":[18],\"jumps\":[{\"from\":18,\"to\":20,\"label\":\"+2\"},{\"from\":20,\"to\":32,\"label\":\"+12\"}]}", "alt_text": "Number line: start at 18, jump 2 to 20, then jump 12 to 32." },
+      "notes": {
+        "summary": "Students add with a make-a-ten strategy.",
+        "say": "Here's a trick: start with the bigger number, 18. Take 2 from the 14 to make 20. Now we have 12 left to add. 20 plus 12 is 32. The sum is 32.",
+        "ask": "Why is it helpful to get to 20 first?",
+        "listen_for": "Friendly tens are easier to add to.",
+        "if_stuck": "Add tens then ones: 10 + 10 = 20, 4 + 8 = 12, 20 + 12 = 32.",
+        "time_minutes": 2
+      }
+    },
+    {
+      "layout": "WE_DO_ANSWER",
+      "title": "“We do”",
+      "body": "Manu has two bags of nuts. One bag weighs 14 oz and the other weighs 18 oz. If he combines them, how many ounces of nuts will he have?\n14 oz + 18 oz = 32 oz (that's 2 pounds!)",
+      "graphic": { "type": "tape_diagram", "params_json": "{\"parts\":[{\"label\":\"14 oz\",\"value\":14},{\"label\":\"18 oz\",\"value\":18}],\"total\":32,\"total_label\":\"32 oz = 2 lb\",\"unit\":\"oz\"}", "alt_text": "Tape diagram: 14 ounces and 18 ounces make 32 ounces, which is 2 pounds." },
+      "notes": {
+        "summary": "Confirm the answer and connect to pounds.",
+        "say": "Manu has 32 ounces of nuts. Here's a bonus: 16 ounces is 1 pound, so 32 ounces is 2 pounds!",
+        "ask": "How do we know 32 ounces is 2 pounds?",
+        "listen_for": "16 + 16 = 32, and each 16 oz is 1 pound.",
+        "if_stuck": "Look at the cheat sheet: 16 oz = 1 lb.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "REFLECTION",
+      "title": "Reflection",
+      "body": "Today we...\nsolved liquid volume and mass word problems using measurement and operations.\nExit question: Which step helps you most?",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Students restate the learning and self-assess.",
+        "say": "Let's look back. Today we solved liquid volume and mass word problems. We named the problem type, drew a model, wrote an equation, and checked our answer with units.",
+        "ask": "Which of our 5 steps helps you most? Type it in the chat.",
+        "listen_for": "Any step, with a reason.",
+        "if_stuck": "Offer choices: drawing the model, or checking.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "YOU_DO",
+      "title": "“You do”",
+      "body": "Your turn to work on your learning path.\nJoin your breakout room.\nShare your screen.\nI will join each room to help.",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Launch independent practice in Exact Path.",
+        "say": "Now it's your turn. Open your learning path, join your breakout room, and share your screen. Use the 5 steps on every problem. I'll visit every room.",
+        "ask": "",
+        "listen_for": "Students naming the problem type and including units.",
+        "if_stuck": "Visit students who showed 1-2 fingers at the brain break first.",
+        "time_minutes": 1
+      }
+    },
+    {
+      "layout": "QUESTIONS",
+      "title": "Questions?",
+      "body": "Any questions?",
+      "graphic": { "type": "none", "params_json": "{}", "alt_text": "" },
+      "notes": {
+        "summary": "Close and take questions.",
+        "say": "Great work today, measurement detectives! Does anyone have a question before we go?",
+        "ask": "Any questions?",
+        "listen_for": "",
+        "if_stuck": "",
+        "time_minutes": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Math lesson deck",
+  "description": "One math lesson: metadata, a teacher guide, and an ordered list of slides. The Apps Script builder turns this into a Google Slides deck from a template.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["meta", "teacher_guide", "slides"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grade", "standard_code", "standard_text", "domain", "skill", "deck_title", "objective", "units_system", "duration_minutes"],
+      "properties": {
+        "grade": { "type": "string", "description": "K, 1, 2 ... 8" },
+        "standard_code": { "type": "string", "description": "e.g. CCSS 3.MD.A.2, TEKS 3.7E, or 'none'" },
+        "standard_text": { "type": "string" },
+        "domain": { "type": "string", "description": "e.g. Measurement, Data & Statistics" },
+        "skill": { "type": "string", "description": "e.g. Solve Capacity and Mass Word Problems" },
+        "deck_title": { "type": "string" },
+        "objective": { "type": "string", "description": "Student-friendly 'Today, we will...' sentence" },
+        "units_system": { "type": "string", "enum": ["US customary", "metric", "both", "not applicable"] },
+        "duration_minutes": { "type": "integer" }
+      }
+    },
+    "teacher_guide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "big_idea", "prerequisites", "heuristics", "misconceptions", "support", "stretch", "materials"],
+      "properties": {
+        "summary": { "type": "string", "description": "3-5 sentences: what the lesson teaches and how it flows" },
+        "big_idea": { "type": "string", "description": "The one thing students must walk away understanding" },
+        "prerequisites": { "type": "array", "items": { "type": "string" } },
+        "heuristics": {
+          "type": "array",
+          "description": "Reusable teaching moves / rules of thumb for explaining this topic",
+          "items": { "type": "string" }
+        },
+        "misconceptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["misconception", "fix"],
+            "properties": {
+              "misconception": { "type": "string" },
+              "fix": { "type": "string" }
+            }
+          }
+        },
+        "support": { "type": "string", "description": "How to scaffold for students who struggle" },
+        "stretch": { "type": "string", "description": "Extension for students who finish early" },
+        "materials": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["layout", "title", "body", "graphic", "notes"],
+        "properties": {
+          "layout": {
+            "type": "string",
+            "enum": [
+              "WELCOME", "EXPECTATIONS", "CHECK_IN", "OBJECTIVES", "DEFINITIONS", "CHEAT_SHEET",
+              "I_DO_PROBLEM", "WORK_IT_OUT", "I_DO_ANSWER", "BRAIN_BREAK",
+              "WE_DO_PROBLEM", "WE_DO_ANSWER", "REFLECTION", "YOU_DO", "QUESTIONS", "GENERIC"
+            ]
+          },
+          "title": { "type": "string" },
+          "body": { "type": "string", "description": "On-slide text. Use \\n for new lines. Max ~45 words." },
+          "graphic": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "params_json", "alt_text"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["none", "tape_diagram", "bar_compare", "number_line", "measuring_container", "array", "equal_groups", "fraction_bar", "base_ten", "image"]
+              },
+              "params_json": { "type": "string", "description": "JSON object as a string; shape depends on type (see prompts/lesson-prompt.md)" },
+              "alt_text": { "type": "string" }
+            }
+          },
+          "notes": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["summary", "say", "ask", "listen_for", "if_stuck", "time_minutes"],
+            "properties": {
+              "summary": { "type": "string", "description": "One line: the purpose of this slide" },
+              "say": { "type": "string", "description": "Word-for-word teacher script" },
+              "ask": { "type": "string", "description": "Question(s) to pose to students; empty if none" },
+              "listen_for": { "type": "string", "description": "Expected answers / evidence of understanding" },
+              "if_stuck": { "type": "string", "description": "Hint or heuristic if students struggle" },
+              "time_minutes": { "type": "number" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
