@@ -3,7 +3,15 @@
 Deck: https://docs.google.com/presentation/d/1t8XIlzfNyII46e-o4m2FT3zpx0lWiQDeIS3ZeAPSdTw/edit
 (this ID goes in the `TEMPLATE_ID` script property)
 
-The deck has 27 slides today. Keep 15, delete 12, then add 1 `GENERIC` slide (16 total).
+> **Status (21 Nov 2026): done.** All of the changes below were applied to the deck through the Slides API. It now has 16 slides: the 15 tagged layouts plus `GENERIC` (last).
+> How the applied version differs from the plan below:
+> - **WELCOME** has no `{{BODY}}`. The Course / Domain / Skill box keeps its formatting and uses `{{DOMAIN}}` and `{{SKILL}}`, which come from the lesson's `meta`. So the WELCOME slide's `body` in the lesson JSON is not used.
+> - **YOU_DO**: only the title is a placeholder. The breakout-room steps and pictures stay static.
+> - **OBJECTIVES** and **REFLECTION** keep their decorative pictures and have no `{{GRAPHIC}}` box (their lesson graphic is `none`).
+> - Every `{{GRAPHIC}}` box has a grey dashed outline so it's easy to spot. The builder deletes it when it draws.
+> - The page is 13.33 x 7.5 in (960 x 540 pt), not the 720 x 405 that `DEFAULT_GRAPHIC_BOX` in `apps-script/Code.gs` assumes. That's why every slide that takes a graphic has an explicit `{{GRAPHIC}}` box.
+
+Before the edit, the deck had 27 slides. Keep 15, delete 12, then add 1 `GENERIC` slide (16 total).
 The tag goes on its own line in the speaker notes, e.g. `#layout=I_DO_PROBLEM`.
 
 What the builder does with each box (`apps-script/Code.gs`):
