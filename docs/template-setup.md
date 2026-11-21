@@ -1,4 +1,4 @@
-# Setting up the Drive template and the script (one time, about 20 minutes)
+# Setting up the template, the Sheet and the script
 
 ## 1. Make the template deck
 
@@ -36,39 +36,44 @@ Tokens you can use anywhere (replaced on every slide): `{{GRADE}}`, `{{SKILL}}`,
 
 A layout with no prototype uses `GENERIC`, so a minimal template needs only a `GENERIC` slide.
 
-Copy the template's ID from its URL: `docs.google.com/presentation/d/`**`THIS_PART`**`/edit`.
+The Grade 3 template is already set up and its ID is built into the script. If you make your own template, paste its link into **Math Slides → Settings... → Template deck**.
 
-## 2. Make the requests Sheet and add the script
+## 2. Make the Lesson Requests Sheet (once, by one person)
 
 1. Create a Google Sheet called "Lesson Requests".
 2. Open **Extensions → Apps Script**.
-3. Create files matching `apps-script/`: `Code.gs`, `Graphics.gs`, `Claude.gs`, `Prompt.gs`. Paste each file's contents in.
-4. Open **Project Settings**:
-   - Turn on "Show appsscript.json", then paste `apps-script/appsscript.json`.
-   - Under **Script properties**, add:
-     - `TEMPLATE_ID` = your template's ID
-     - `OUTPUT_FOLDER_ID` = a Drive folder ID for new decks (optional)
-     - `ANTHROPIC_API_KEY` = your key from console.anthropic.com (optional; only needed for one-click generation)
-     - `CLAUDE_MODEL` = `claude-opus-5-5` (default) or `claude-sonnet-5-5` (faster and cheaper)
-5. Reload the Sheet. A **Math Slides** menu appears. Run **Set up this sheet** and approve the permissions.
+3. Add a script file (**+ → Script**) for each `.gs` file in `apps-script/`: `Code.gs`, `Ui.gs`, `Graphics.gs`, `Claude.gs`, `Prompt.gs`. Paste each file's contents in. Apps Script adds `.gs` itself, so name them `Code`, `Ui` and so on.
+4. Add two HTML files (**+ → HTML**) named `Sidebar` and `Settings`, and paste in `apps-script/Sidebar.html` and `apps-script/Settings.html`.
+5. In **Project Settings**, turn on "Show appsscript.json", then paste `apps-script/appsscript.json` into it.
+6. Reload the Sheet. A **Math Slides** menu appears. Choose **New lesson...** and approve the permissions. Google may say it "hasn't verified this app": choose **Advanced → Go to (project name)**. That warning is normal for a script you wrote yourself.
 
-## 3. Make a deck
+No settings are needed: the template ID is built in (`DEFAULTS.TEMPLATE_ID` in `Ui.gs`). If you have an Anthropic API key, add it in **Math Slides → Settings...**.
 
-**Without an API key:**
+## 3. Share it with other teachers (no setup for them)
 
-1. Paste the system prompt from `prompts/lesson-prompt.md` and your criteria into claude.ai.
-2. Ask for revisions until you're happy.
-3. Paste the JSON into the **Lesson JSON** column.
-4. Select the row, then choose **Math Slides → Build deck for selected row**.
+Copying a Google Sheet also copies its script, so other teachers only need a copy link.
 
-**With an API key:**
+1. **Share the template deck** so everyone can read it: open the template, click **Share**, and under **General access** choose your school (or "Anyone with the link") as **Viewer**. Without this, their builds fail with "Can't open the template deck".
+2. **Share the Sheet** the same way, as **Viewer**.
+3. Take the Sheet's address and change the end from `/edit...` to `/copy`:
+   `https://docs.google.com/spreadsheets/d/SHEET_ID/copy`
+   Anyone who opens that link sees a **Make a copy** button. Their copy has the Math Slides menu ready to use.
 
-1. Fill in columns A–F.
-2. Choose **Generate JSON only** to review first, or go straight to **Build deck**.
+Settings are saved per person, not in the Sheet. So your API key is never copied, and each teacher can add their own key and choose their own folder for new decks.
 
-The deck link and any warnings (such as an equation that doesn't add up) appear in the Status and Deck link columns.
+## 4. Make a deck
 
-## 4. Changing the prompt or schema
+Choose **Math Slides → New lesson...**. A panel opens on the right.
+
+1. Fill in the grade, skill and objective. **More details** (class profile, number range, words to define, and so on) is optional but makes the lesson better.
+2. Then:
+   - **With an API key:** click **Write lesson and build deck**. It takes about 2 minutes.
+   - **Without a key:** click **Copy prompt**, then **Open claude.ai**, paste into a new chat, and ask for changes until you're happy. Copy Claude's whole reply, paste it into box 2, and click **Build deck**. The reply can include words around the JSON; the script finds the lesson inside it.
+3. Click **Open the deck**. If an equation doesn't add up, the panel lists it under "Check these before teaching".
+
+Each lesson is saved as a row in the Sheet, with its lesson JSON (column G), status and deck link. To rebuild after editing the JSON, select the row and choose **Build deck for selected row**. You can still type criteria straight into columns A–F and use the row menu items instead of the panel.
+
+## 5. Changing the prompt or schema
 
 Edit `prompts/lesson-prompt.md` or `schema/lesson.schema.json`, then run:
 
@@ -77,4 +82,4 @@ node tools/build-prompt-gs.mjs   # regenerates apps-script/Prompt.gs
 node tools/test-local.mjs        # offline check of the builder with the example lesson
 ```
 
-Then paste the new `Prompt.gs` into the Apps Script editor.
+Then paste the new `Prompt.gs` into the Apps Script editor. Teachers who already made a copy keep the old version until they make a fresh copy.

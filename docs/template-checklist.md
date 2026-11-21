@@ -1,7 +1,7 @@
 # Template checklist: "TEMPLATE - Math Lesson (from Grade 3 Capacity and Mass)"
 
 Deck: https://docs.google.com/presentation/d/1t8XIlzfNyII46e-o4m2FT3zpx0lWiQDeIS3ZeAPSdTw/edit
-(this ID goes in the `TEMPLATE_ID` script property)
+(this ID is built into the script as `DEFAULTS.TEMPLATE_ID` in `apps-script/Ui.gs`)
 
 > **Status (21 Nov 2026): done.** All of the changes below were applied to the deck through the Slides API. It now has 16 slides: the 15 tagged layouts plus `GENERIC` (last).
 > How the applied version differs from the plan below:

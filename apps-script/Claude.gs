@@ -5,21 +5,18 @@
  * be JSON matching schema/lesson.schema.json. SYSTEM_PROMPT and LESSON_SCHEMA live in Prompt.gs,
  * which tools/build-prompt-gs.mjs generates from prompts/lesson-prompt.md and the schema file.
  *
- * Needs the ANTHROPIC_API_KEY script property. Apps Script has no Anthropic SDK, so this
+ * Needs an API key (Math Slides > Settings, or the ANTHROPIC_API_KEY script property). Apps Script has no Anthropic SDK, so this
  * calls the REST endpoint with UrlFetchApp.
  */
 
 var CLAUDE_URL = 'https://api.anthropic.com/v1/messages';
 
 function generateLesson(criteriaText) {
-  var props = PropertiesService.getScriptProperties();
-  var apiKey = props.getProperty('ANTHROPIC_API_KEY');
-  if (!apiKey) {
-    throw new Error('No ANTHROPIC_API_KEY script property. Either add one, or paste lesson JSON made in claude.ai into the Lesson JSON column.');
-  }
+  var apiKey = getSetting_('ANTHROPIC_API_KEY');
+  if (!apiKey) throw new Error('NO_KEY');
 
   var payload = {
-    model: props.getProperty('CLAUDE_MODEL') || 'claude-opus-5-5',
+    model: getSetting_('CLAUDE_MODEL'),
     max_tokens: 16000,
     system: SYSTEM_PROMPT,
     messages: [{ role: 'user', content: 'Create the lesson deck for these criteria:\n\n' + criteriaText }],

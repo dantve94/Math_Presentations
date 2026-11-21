@@ -7,7 +7,7 @@ Two parts:
 
 You can use this prompt two ways:
 
-- **No code / no API key:** paste the system prompt and the filled-in criteria into Claude (claude.ai). Ask for JSON only, review it, and paste it into the `Lesson JSON` column of the requests Sheet. The script builds the deck from it.
+- **No code / no API key:** paste the system prompt and the filled-in criteria into Claude (claude.ai). Ask for JSON only, review it, and paste it into the `Lesson JSON` column of the requests Sheet (or use **Math Slides → New lesson → Copy prompt**, which adds the schema for you). The script builds the deck from it.
 - **Automated:** the Apps Script (`apps-script/Claude.gs`) sends the same prompt to the Claude API, using the JSON schema as structured output.
 
 > `apps-script/Claude.gs` holds a copy of the system prompt (`SYSTEM_PROMPT`). If you change one, change the other.

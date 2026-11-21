@@ -74,6 +74,11 @@ Object.assign(pres, { getSlides: () => pres.slides.slice(), replaceAllText: (a, 
 const enumProxy = new Proxy({}, { get: (_t, k) => k });
 const ctx = {
   SlidesApp: { openById: () => pres, ShapeType: enumProxy, LineCategory: enumProxy, ArrowStyle: enumProxy, DashStyle: enumProxy, ParagraphAlignment: enumProxy, ContentAlignment: enumProxy },
+  PropertiesService: (() => {
+    const store = (o) => ({ getProperty: (k) => o[k] ?? null, setProperty: (k, v) => { o[k] = v; }, deleteProperty: (k) => { delete o[k]; } });
+    const user = {}, script = {};
+    return { getUserProperties: () => store(user), getScriptProperties: () => store(script), _user: user, _script: script };
+  })(),
   DriveApp: { getFileById: () => ({ makeCopy: () => ({ getId: () => 'copy', getUrl: () => 'https://docs.google.com/presentation/d/copy' }) }), getFolderById: () => ({}) },
   console
 };
@@ -89,6 +94,49 @@ assert.equal(eq('8 gal ÷ 2 = 4 gal').length, 0);
 assert.equal(eq('4 x 2 = 8').length, 0);
 assert.equal(eq('14 oz + 18 oz = 31 oz').length, 1, 'should catch wrong sum');
 assert.equal(eq('24 oz - 9 oz = 16 oz').length, 1, 'should catch wrong difference');
+
+// ---------- Ui.gs helpers ----------
+const P = ctx.PropertiesService;
+assert.equal(ctx.getSetting_('TEMPLATE_ID'), ctx.DEFAULTS.TEMPLATE_ID, 'falls back to the built-in template');
+P._script.TEMPLATE_ID = 'script-level-template';
+assert.equal(ctx.getSetting_('TEMPLATE_ID'), 'script-level-template', 'older script property still works');
+P._user.TEMPLATE_ID = 'my-own-template';
+assert.equal(ctx.getSetting_('TEMPLATE_ID'), 'my-own-template', 'user setting wins');
+delete P._user.TEMPLATE_ID; delete P._script.TEMPLATE_ID;
+assert.equal(ctx.getSetting_('ANTHROPIC_API_KEY'), '');
+assert.equal(ctx.getSetting_('CLAUDE_MODEL'), 'claude-opus-5-5');
+
+const id = '1t8XIlzfNyII46e-o4m2FT3zpx0lWiQDeIS3ZeAPSdTw';
+assert.equal(ctx.parseDriveId_('https://docs.google.com/presentation/d/' + id + '/edit#slide=id.p'), id);
+assert.equal(ctx.parseDriveId_('https://drive.google.com/drive/folders/' + id + '?usp=sharing'), id);
+assert.equal(ctx.parseDriveId_('  ' + id + ' '), id);
+assert.equal(ctx.parseDriveId_(''), '');
+assert.throws(() => ctx.parseDriveId_('my lessons folder'), /BAD_LINK/);
+
+const raw = readFileSync(lessonPath, 'utf8');
+assert.equal(ctx.parseLessonText_(raw).slides.length, lesson.slides.length, 'bare JSON');
+assert.equal(ctx.parseLessonText_('Here is your lesson:\n```json\n' + raw + '\n```\nWant changes?').slides.length, lesson.slides.length, 'chat reply with a code block');
+assert.equal(ctx.parseLessonText_('Sure! ' + raw + ' Let me know.').slides.length, lesson.slides.length, 'words around the JSON');
+assert.throws(() => ctx.parseLessonText_(raw.slice(0, 2000)), /BAD_JSON/, 'cut-off answer');
+
+const fe = (m) => ctx.friendlyError_(new Error(m));
+assert.match(fe('NO_KEY'), /Copy prompt/);
+assert.match(fe('BAD_JSON: Unexpected end'), /first \{ to the last \}/);
+assert.match(fe('Claude API error 401: {"type":"authentication_error"}'), /key was rejected/);
+assert.match(fe('Claude API error 529: overloaded'), /busy/);
+assert.match(fe('No item with the given ID could be found. Or perhaps you do not have permission to access it.'), /share the template/);
+assert.match(fe('No prototype slides found.'), /tagged/);
+
+// The sidebar builds the claude.ai prompt in the browser; it must match the server's wording.
+const sidebar = readFileSync(join(root, 'apps-script/Sidebar.html'), 'utf8');
+const fnSrc = sidebar.match(/function criteria\(o\) \{[\s\S]*?\n\}/)[0];
+const clientCriteria = new Function('extraFields', fnSrc + '; return criteria;')(ctx.EXTRA_FIELDS);
+const sample = { grade: '3', units: 'US customary', standard: 'CCSS 3.MD.A.2', skill: 'Capacity', objective: 'Today, we will…',
+  length: '30 min', profile: '', mustInclude: 'division', numbers: '', examples: '2 I do', vocab: '', context: '', avoid: '', other: 'Online' };
+assert.equal(clientCriteria(sample), ctx.criteriaFromForm_(sample), 'sidebar and server criteria text match');
+assert.ok(ctx.sidebarPrompt(sample).endsWith(ctx.criteriaFromForm_(sample)));
+assert.match(ctx.sidebarPrompt(sample), /"teacher_guide"/, 'prompt carries the schema');
+console.log('Ui.gs checks passed.');
 
 const warnings = ctx.validateLesson(lesson);
 console.log('Validation warnings:', warnings.length ? warnings : 'none');

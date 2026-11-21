@@ -5,15 +5,18 @@
  *   A Grade | B Standard | C Skill | D Objective | E Units | F Other criteria |
  *   G Lesson JSON | H Status | I Deck link
  *
- * Flow for the selected row:
+ * Most people use Math Slides > New lesson (Ui.gs + Sidebar.html), which fills in a row for them.
+ * The row-based menu items below still work for anyone who prefers typing into the Sheet.
+ *
+ * Flow for a row:
  *   1. If column G is empty, send the criteria to Claude (Claude.gs) and save the JSON in G.
  *      (You can also paste JSON you made in claude.ai into G and skip the API.)
  *   2. Check the JSON (structure + arithmetic in equations).
  *   3. Copy the template, fill one slide per lesson slide, draw graphics, write speaker notes.
  *
- * Script Properties (Project Settings > Script properties):
- *   TEMPLATE_ID        required: Drive ID of the template deck (see docs/template-setup.md)
- *   OUTPUT_FOLDER_ID   optional: Drive folder for new decks
+ * Settings (Math Slides > Settings, stored per user; see getSetting_ in Ui.gs):
+ *   template deck      defaults to DEFAULTS.TEMPLATE_ID
+ *   output folder      optional: Drive folder for new decks
  *   ANTHROPIC_API_KEY  optional: only needed for step 1 via the API
  *   CLAUDE_MODEL       optional: defaults to claude-opus-5-5
  */
@@ -25,11 +28,14 @@ var DEFAULT_GRAPHIC_BOX = { left: 400, top: 110, width: 290, height: 250 };   //
 
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Math Slides')
-    .addItem('Build deck for selected row', 'buildForSelectedRow')
-    .addItem('Generate JSON only (review before building)', 'generateJsonForSelectedRow')
+    .addItem('New lesson...', 'showSidebar')
+    .addItem('Settings...', 'showSettings')
     .addSeparator()
+    .addItem('Build deck for selected row', 'buildForSelectedRow')
+    .addItem('Generate JSON only for selected row', 'generateJsonForSelectedRow')
     .addItem('Set up this sheet', 'setupSheet')
     .addToUi();
+  try { ensureHeaders_(SpreadsheetApp.getActiveSheet()); } catch (e) { /* view-only users */ }
 }
 
 function setupSheet() {
@@ -40,7 +46,10 @@ function setupSheet() {
   sheet.setColumnWidth(COL.JSON, 200);
 }
 
-function generateJsonForSelectedRow() {
+function generateJsonForSelectedRow() { runFromMenu_(generateJsonForSelectedRow_); }
+function buildForSelectedRow() { runFromMenu_(buildForSelectedRow_); }
+
+function generateJsonForSelectedRow_() {
   var ctx = selectedRow_();
   setStatus_(ctx, 'Generating lesson with Claude...');
   var lesson = generateLesson(criteriaText_(ctx.values));
@@ -49,7 +58,7 @@ function generateJsonForSelectedRow() {
   setStatus_(ctx, warnings.length ? 'JSON ready, please review: ' + warnings.join(' | ') : 'JSON ready, review then build');
 }
 
-function buildForSelectedRow() {
+function buildForSelectedRow_() {
   var ctx = selectedRow_();
   var lesson = loadLessonJson_(ctx);
   if (!lesson) {
@@ -59,8 +68,7 @@ function buildForSelectedRow() {
   }
   var warnings = validateLesson(lesson);
   setStatus_(ctx, 'Building deck...');
-  var props = PropertiesService.getScriptProperties();
-  var url = buildDeck(lesson, props.getProperty('TEMPLATE_ID'), props.getProperty('OUTPUT_FOLDER_ID'));
+  var url = buildDeck(lesson, getSetting_('TEMPLATE_ID'), getSetting_('OUTPUT_FOLDER_ID'));
   ctx.sheet.getRange(ctx.row, COL.LINK).setValue(url);
   setStatus_(ctx, warnings.length ? 'Built with warnings: ' + warnings.join(' | ') : 'Built ' + new Date().toLocaleString());
 }
@@ -74,7 +82,7 @@ function buildForSelectedRow() {
  * Template slides are prototypes, each tagged in its speaker notes with  #layout=NAME
  */
 function buildDeck(lesson, templateId, folderId) {
-  if (!templateId) throw new Error('Set the TEMPLATE_ID script property to your template deck ID.');
+  if (!templateId) throw new Error('TEMPLATE_ID is not set. Choose the template deck in Math Slides > Settings.');
   var title = lesson.meta.deck_title || ('Grade ' + lesson.meta.grade + ' - ' + lesson.meta.skill);
   var templateFile = DriveApp.getFileById(templateId);
   var copy = folderId ? templateFile.makeCopy(title, DriveApp.getFolderById(folderId)) : templateFile.makeCopy(title);
@@ -307,7 +315,7 @@ function saveLessonJson_(ctx, lesson) {
   var json = JSON.stringify(lesson, null, 1);
   var cell = ctx.sheet.getRange(ctx.row, COL.JSON);
   if (json.length < 49000) { cell.setValue(json); return; }
-  var folderId = PropertiesService.getScriptProperties().getProperty('OUTPUT_FOLDER_ID');
+  var folderId = getSetting_('OUTPUT_FOLDER_ID');
   var name = (lesson.meta.deck_title || 'lesson') + '.json';
   var file = folderId ? DriveApp.getFolderById(folderId).createFile(name, json, 'application/json')
                       : DriveApp.createFile(name, json, 'application/json');
@@ -318,6 +326,5 @@ function loadLessonJson_(ctx) {
   var raw = String(ctx.values[COL.JSON - 1] || '').trim();
   if (!raw) return null;
   if (raw.indexOf('drive:') === 0) raw = DriveApp.getFileById(raw.slice(6)).getBlob().getDataAsString();
-  raw = raw.replace(/^```(?:json)?\s*/, '').replace(/```\s*$/, '');   // tolerate pasted code fences
-  return JSON.parse(raw);
+  return parseLessonText_(raw);   // tolerates code fences and words around the JSON
 }

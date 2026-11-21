@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  :root { --orange:#ef6a2e; --orange-dark:#c24f17; --ink:#202124; --muted:#5f6368; --line:#dadce0; --soft:#fff3e8; --ok:#188038; --warn:#b06000; --bad:#c5221f; }
+  * { box-sizing: border-box; }
+  body { font: 13px/1.45 Arial, Helvetica, sans-serif; color: var(--ink); margin: 0; padding: 12px 14px 24px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
+  h2:first-child { margin-top: 0; }
+  label { display: block; font-weight: bold; margin: 10px 0 3px; }
+  .hint { font-weight: normal; color: var(--muted); }
+  input, select, textarea { width: 100%; font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); }
+  textarea { resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--orange); outline-offset: -1px; border-color: var(--orange); }
+  details { margin-top: 12px; border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px 10px; }
+  summary { cursor: pointer; font-weight: bold; padding: 2px 0; }
+  button { font: bold 13px Arial, sans-serif; border-radius: 4px; padding: 9px 12px; cursor: pointer; border: 1px solid var(--line); background: #fff; color: var(--ink); }
+  button.primary { background: var(--orange); border-color: var(--orange); color: #fff; width: 100%; padding: 11px 12px; font-size: 14px; }
+  button.primary:hover { background: var(--orange-dark); }
+  button:disabled { opacity: .55; cursor: default; }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+  .steps { counter-reset: s; display: grid; gap: 10px; margin-top: 4px; }
+  .step { display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: start; }
+  .step b.n { width: 22px; height: 22px; border-radius: 50%; background: var(--soft); color: var(--orange-dark); text-align: center; line-height: 22px; font-size: 12px; }
+  .link { background: none; border: 0; color: var(--orange-dark); padding: 0; font-weight: normal; text-decoration: underline; cursor: pointer; }
+  .box { border-radius: 6px; padding: 10px 12px; margin-top: 12px; }
+  .box.info { background: var(--soft); }
+  .box.ok { background: #e6f4ea; }
+  .box.bad { background: #fce8e6; color: var(--bad); }
+  .box ul { margin: 6px 0 0; padding-left: 18px; color: var(--warn); }
+  .box ul.progress { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; color: var(--ink); }
+  .progress li::before { content: "○ "; color: var(--muted); }
+  .progress li.now { font-weight: bold; }
+  .progress li.now::before { content: "● "; color: var(--orange); }
+  .progress li.done::before { content: "● "; color: var(--ok); }
+  .open { display: block; text-align: center; margin-top: 8px; padding: 10px; background: var(--ok); color: #fff; border-radius: 4px; text-decoration: none; font-weight: bold; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<form id="f" autocomplete="off">
+  <h2>What's the lesson?</h2>
+
+  <div class="row">
+    <div>
+      <label for="grade">Grade</label>
+      <select id="grade" required>
+        <option>K</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
+      </select>
+    </div>
+    <div>
+      <label for="units">Units</label>
+      <select id="units">
+        <option>US customary</option><option>Metric</option><option>US customary and metric</option><option>Not about measurement</option>
+      </select>
+    </div>
+  </div>
+
+  <label for="standard">Standard <span class="hint">(code and text, or leave blank)</span></label>
+  <input id="standard" placeholder="e.g. CCSS 3.MD.A.2 — Solve one-step word problems…">
+
+  <label for="skill">Skill</label>
+  <input id="skill" required placeholder="e.g. Solve capacity and mass word problems">
+
+  <label for="objective">Objective <span class="hint">(student-friendly)</span></label>
+  <textarea id="objective" rows="2" required placeholder="e.g. Today, we will solve liquid volume and mass word problems."></textarea>
+
+  <details>
+    <summary>More details <span class="hint">(optional, makes it better)</span></summary>
+    <label for="length">Lesson length and setting</label>
+    <input id="length" placeholder="e.g. 30 minutes, live online, breakout rooms">
+    <label for="profile">Class</label>
+    <textarea id="profile" rows="2" placeholder="e.g. Mixed ability, several English learners"></textarea>
+    <label for="mustInclude">Must include</label>
+    <input id="mustInclude" placeholder="e.g. One division problem, one addition problem">
+    <div class="row">
+      <div><label for="numbers">Numbers</label><input id="numbers" placeholder="e.g. Up to 100"></div>
+      <div><label for="examples">Examples</label><input id="examples" placeholder="e.g. 2 I do, 2 We do"></div>
+    </div>
+    <label for="vocab">Words to define</label>
+    <input id="vocab" placeholder="e.g. capacity, volume, mass">
+    <label for="context">Names and contexts</label>
+    <input id="context" placeholder="e.g. Manu and Sten; kitchen and garden">
+    <label for="avoid">Avoid</label>
+    <input id="avoid" placeholder="e.g. Keyword tricks like “in all means add”">
+    <label for="other">Anything else</label>
+    <textarea id="other" rows="2"></textarea>
+  </details>
+
+  <h2>Make the deck</h2>
+
+  <!-- With an API key -->
+  <div id="keyRoute" hidden>
+    <button type="submit" class="primary" id="goKey">Write lesson and build deck</button>
+    <p class="hint">Takes about 2 minutes. <button type="button" class="link" id="showPaste">Use claude.ai instead</button></p>
+  </div>
+
+  <!-- Without an API key -->
+  <div id="pasteRoute" hidden>
+    <div class="steps">
+      <div class="step"><b class="n">1</b><div>
+        <div class="row"><button type="button" id="copy">Copy prompt</button><button type="button" id="openClaude">Open claude.ai</button></div>
+        <div class="hint" id="copyMsg" style="margin-top:4px">Paste it into a new chat. Ask for changes until you're happy.</div>
+      </div></div>
+      <div class="step"><b class="n">2</b><div>
+        <label for="pasted" style="margin-top:0">Paste Claude's answer</label>
+        <textarea id="pasted" rows="4" placeholder="Paste the whole reply here"></textarea>
+      </div></div>
+      <div class="step"><b class="n">3</b><div>
+        <button type="submit" class="primary" id="goPaste">Build deck</button>
+      </div></div>
+    </div>
+    <p class="hint" id="keyNote">Want one-click lessons? Add an API key in <b>Math Slides › Settings</b>.</p>
+  </div>
+</form>
+
+<div id="status" class="box info" hidden>
+  <ul class="progress" id="progress"></ul>
+</div>
+<div id="result" hidden></div>
+<textarea id="promptText" style="position:absolute;left:-9999px" aria-hidden="true" tabindex="-1"></textarea>
+
+<script>
+var FIELDS = ['grade','units','standard','skill','objective','length','profile','mustInclude','numbers','examples','vocab','context','avoid','other','pasted'];
+var $ = function (id) { return document.getElementById(id); };
+var hasKey = false, usePaste = false, promptHead = '', extraFields = [];
+
+function form() { var o = {}; FIELDS.forEach(function (k) { o[k] = $(k).value; }); if (!usePaste) o.pasted = ''; return o; }
+
+function showRoute() {
+  $('keyRoute').hidden = !hasKey || usePaste;
+  $('pasteRoute').hidden = hasKey && !usePaste;
+  $('keyNote').hidden = hasKey;
+}
+
+function setProgress(items, current) {
+  $('status').hidden = false;
+  $('progress').innerHTML = items.map(function (t, i) {
+    return '<li class="' + (i < current ? 'done' : i === current ? 'now' : '') + '">' + t + '</li>';
+  }).join('');
+}
+
+function busy(on) { ['goKey','goPaste'].forEach(function (id) { $(id).disabled = on; }); }
+
+function showError(msg) {
+  busy(false); $('status').hidden = true;
+  $('result').hidden = false; $('result').className = 'box bad'; $('result').textContent = msg;
+}
+
+function needed() {
+  var missing = ['skill','objective'].filter(function (k) { return !$(k).value.trim(); });
+  if (missing.length) { $(missing[0]).focus(); showError('Fill in the skill and the objective first.'); return false; }
+  return true;
+}
+
+$('f').addEventListener('submit', function (e) {
+  e.preventDefault();
+  if (!needed()) return;
+  if (usePaste || !hasKey) {
+    if (!$('pasted').value.trim()) { $('pasted').focus(); showError('Paste Claude\'s answer into step 2 first.'); return; }
+  }
+  var steps = (usePaste || !hasKey) ? ['Reading the lesson', 'Building the deck (about 30 seconds)']
+                                     : ['Writing the lesson with Claude (1–2 minutes)', 'Building the deck (about 30 seconds)'];
+  $('result').hidden = true; busy(true); setProgress(steps, 0);
+  google.script.run.withSuccessHandler(function (r) {
+    if (!r.ok) return showError(r.error);
+    setProgress(steps, 1);
+    google.script.run.withSuccessHandler(function (b) {
+      if (!b.ok) return showError(b.error);
+      busy(false); setProgress(steps, 2);
+      var html = '<b>' + escapeHtml(b.title) + '</b> is ready.' +
+        '<a class="open" target="_blank" href="' + b.url + '">Open the deck</a>';
+      if (b.warnings.length) html += '<div style="margin-top:8px">Check these before teaching:</div><ul>' +
+        b.warnings.map(function (w) { return '<li>' + escapeHtml(w) + '</li>'; }).join('') + '</ul>';
+      html += '<p class="hint">Saved in row ' + r.row + ' of the Sheet. <button type="button" class="link" id="again">Start another lesson</button></p>';
+      $('result').className = 'box ok'; $('result').innerHTML = html; $('result').hidden = false;
+      $('again').addEventListener('click', reset);
+    }).withFailureHandler(function (err) { showError(String(err.message || err)); }).sidebarBuild(r.row);
+  }).withFailureHandler(function (err) { showError(String(err.message || err)); }).sidebarPrepare(form());
+});
+
+// Same wording as criteriaText_() in Code.gs and otherFromForm_() in Ui.gs.
+function criteria(o) {
+  var other = extraFields.filter(function (f) { return o[f[0]] && o[f[0]].trim(); })
+    .map(function (f) { return f[1] + ': ' + o[f[0]].trim(); }).join('\n');
+  return ['Grade: ' + o.grade, 'Standard: ' + o.standard, 'Skill: ' + o.skill, 'Lesson objective: ' + o.objective,
+          'Units: ' + o.units, 'Other criteria: ' + other].join('\n');
+}
+
+$('copy').addEventListener('click', function () {
+  if (!needed()) return;
+  if (!promptHead) { $('copyMsg').textContent = 'Still loading, try again in a moment.'; return; }
+  $('result').hidden = true;
+  var text = promptHead + criteria(form());
+  var t = $('promptText'); t.value = text;
+  var done = function () { $('copyMsg').textContent = 'Copied. Now open claude.ai, start a new chat and paste (Ctrl+V or ⌘V).'; };
+  var manual = function () { $('copyMsg').textContent = 'Your browser blocked copying. The prompt is selected below: press Ctrl+C (⌘C on a Mac).'; t.style.position = 'static'; t.rows = 3; t.select(); };
+  var fallback = function () { t.select(); try { document.execCommand('copy') ? done() : manual(); } catch (e) { manual(); } };
+  try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+});
+
+$('openClaude').addEventListener('click', function () { window.open('https://claude.ai/new', '_blank'); });
+$('showPaste').addEventListener('click', function () { usePaste = true; showRoute(); });
+
+function reset() {
+  FIELDS.forEach(function (k) { if (k !== 'grade' && k !== 'units') $(k).value = ''; });
+  $('result').hidden = true; $('status').hidden = true; $('skill').focus();
+}
+function escapeHtml(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+google.script.run.withSuccessHandler(function (s) { hasKey = s.hasKey; promptHead = s.promptHead; extraFields = s.extraFields; showRoute(); })
+  .withFailureHandler(function () { showRoute(); }).sidebarInit();
+</script>
+</body>
+</html>

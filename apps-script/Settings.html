@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  :root { --orange:#ef6a2e; --orange-dark:#c24f17; --ink:#202124; --muted:#5f6368; --line:#dadce0; --bad:#c5221f; --ok:#188038; }
+  * { box-sizing: border-box; }
+  body { font: 13px/1.45 Arial, Helvetica, sans-serif; color: var(--ink); margin: 0; padding: 4px 4px 0; }
+  fieldset { border: 0; padding: 0; margin: 0 0 16px; }
+  legend { font-weight: bold; font-size: 14px; margin-bottom: 2px; }
+  .hint { color: var(--muted); margin: 2px 0 6px; }
+  input, select { width: 100%; font: inherit; padding: 7px 8px; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: #fff; }
+  input:focus, select:focus { outline: 2px solid var(--orange); outline-offset: -1px; }
+  .saved { color: var(--ok); font-weight: bold; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  button { font: bold 13px Arial, sans-serif; border-radius: 4px; padding: 9px 16px; cursor: pointer; border: 1px solid var(--line); background: #fff; }
+  button.primary { background: var(--orange); border-color: var(--orange); color: #fff; }
+  button.link { border: 0; background: none; color: var(--orange-dark); text-decoration: underline; padding: 0; font-weight: normal; }
+  .actions { display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+  #msg { color: var(--bad); margin-bottom: 10px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<form id="f">
+  <div id="msg" hidden></div>
+
+  <fieldset>
+    <legend>Claude API key <span class="hint">(optional)</span></legend>
+    <p class="hint">With a key, “Write lesson and build deck” does everything in one click. Get one at console.anthropic.com. It's saved for you only and isn't copied with the Sheet.</p>
+    <div class="row" id="keySaved" hidden><span class="saved">Saved</span><span id="keyHint"></span><button type="button" class="link" id="removeKey">Remove</button></div>
+    <input id="key" type="password" placeholder="sk-ant-…" autocomplete="off">
+  </fieldset>
+
+  <fieldset>
+    <legend>Claude model</legend>
+    <select id="model">
+      <option value="claude-opus-5-5">Opus 5.5 (best lessons)</option>
+      <option value="claude-sonnet-5-5">Sonnet 5.5 (faster, cheaper)</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>Folder for new decks <span class="hint">(optional)</span></legend>
+    <p class="hint">Paste a Google Drive folder link. Leave empty to save decks in My Drive.</p>
+    <input id="folder" placeholder="https://drive.google.com/drive/folders/…">
+  </fieldset>
+
+  <fieldset>
+    <legend>Template deck</legend>
+    <p class="hint">The tagged deck every lesson is built from. Only change this if you made your own template. <button type="button" class="link" id="resetTemplate">Use the standard template</button></p>
+    <input id="template">
+  </fieldset>
+
+  <div class="actions">
+    <button type="button" onclick="google.script.host.close()">Cancel</button>
+    <button type="submit" class="primary" id="save">Save</button>
+  </div>
+</form>
+
+<script>
+var $ = function (id) { return document.getElementById(id); };
+var removeKey = false, defaultTemplate = '';
+
+google.script.run.withSuccessHandler(function (s) {
+  $('keySaved').hidden = !s.hasKey; $('keyHint').textContent = s.keyHint;
+  $('key').placeholder = s.hasKey ? 'Paste a new key to replace it' : 'sk-ant-…';
+  $('model').value = s.model; $('folder').value = s.folder;
+  $('template').value = s.template;
+  if (s.templateIsDefault) defaultTemplate = s.template;
+}).settingsLoad();
+
+$('removeKey').addEventListener('click', function () { removeKey = true; $('keySaved').hidden = true; $('key').value = ''; $('key').placeholder = 'Key will be removed when you save'; });
+$('resetTemplate').addEventListener('click', function () { $('template').value = ''; $('template').placeholder = 'Standard template'; });
+
+$('f').addEventListener('submit', function (e) {
+  e.preventDefault();
+  $('save').disabled = true; $('save').textContent = 'Saving…'; $('msg').hidden = true;
+  google.script.run.withSuccessHandler(function (r) {
+    if (r.ok) return google.script.host.close();
+    $('msg').textContent = r.error; $('msg').hidden = false; $('save').disabled = false; $('save').textContent = 'Save';
+  }).settingsSave({ key: $('key').value, removeKey: removeKey, model: $('model').value, folder: $('folder').value, template: $('template').value });
+});
+</script>
+</body>
+</html>
